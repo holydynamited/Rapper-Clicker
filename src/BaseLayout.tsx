@@ -10,7 +10,7 @@ type Props = {
   children: React.ReactNode; 
   money:number;
   moneyPerClick: number;
-  handleTab: ()=> void;
+  handleTab: (tab:tab)=> void;
   realTab :tab
 }
 

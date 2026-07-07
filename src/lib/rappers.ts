@@ -29,7 +29,7 @@ export const RAPPERS:rapper[] = [
     {
         id:"yeat",
         name:"Yeat",
-        about:"I DON'T LIKE HIM NOW!!! MINION!",
+        about:"Minion",
         rapperImg:yeat,
         clickPower:1,
         leanPerSecond:0,
@@ -57,7 +57,7 @@ export const RAPPERS:rapper[] = [
     {
         id:"bleood",
         name:"bleood",
-        about:"King RASCAL",
+        about:"King Rascal",
         rapperImg:bleood,
         clickPower:25,
         leanPerSecond:10,
@@ -66,10 +66,10 @@ export const RAPPERS:rapper[] = [
     {
         id:"carti",
         name:"Playboi Carti",
-        about:"KING VAMP YVL",
+        about:"King Vamp YVL",
         rapperImg:carti,
         clickPower:100,
         leanPerSecond:35,
-        rapperRarity:"epic"
+        rapperRarity:"arcane"
     }
 ]

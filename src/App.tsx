@@ -30,7 +30,7 @@ function App() {
   const [clicks, setClick] = useState<click[]>([]);
 
   // # 4. GAME CALCULATIONS
-  const moneyPerClick = clickMoney*multiplier;
+  const moneyPerClick = (activeRapper?.clickPower||0)*multiplier;
 
   // # 5. SIDE EFFECTS
   useEffect(()=>{
