@@ -12,11 +12,15 @@ type CardContentProps = {
   chromeAngle: number;
   parallaxX: number;
   parallaxY: number;
+  isUnlocked:boolean;
+  isActive:boolean;
 };
 
 /** Единый layout: фото на всю карту + инфо-панель снизу (на всех редкостях) */
 export const CardContent = ({
   rapper,
+  isUnlocked,
+  isActive,
   config,
   cardNo,
   isArcane,
@@ -24,7 +28,7 @@ export const CardContent = ({
   parallaxX,
   parallaxY,
 }: CardContentProps) => (
-  <div className="absolute inset-0 z-0 overflow-hidden rounded-[27px]">
+  <div className={`absolute inset-0 z-0 overflow-hidden rounded-[27px] ${isUnlocked ? '' : 'grayscale-100'}`}>
     <img
       src={rapper.rapperImg}
       alt={rapper.name}
@@ -39,7 +43,7 @@ export const CardContent = ({
       }
     />
 
-    {isArcane && (
+    {isUnlocked && isArcane && (
       <>
         <div
           className="absolute inset-0 arcane-rgb-shift pointer-events-none z-[2] animate-arcane-rgb"
@@ -54,7 +58,7 @@ export const CardContent = ({
       </>
     )}
 
-    <PhotoOverlays />
+    {isUnlocked && <PhotoOverlays />}
     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/15 pointer-events-none z-[4]" />
 
     {config.watermark && (
@@ -63,7 +67,7 @@ export const CardContent = ({
       </div>
     )}
 
-    <CardHeader rarity={rapper.rapperRarity} accent={config.accent} />
+    <CardHeader rarity={rapper.rapperRarity} accent={config.accent} isActive={isActive} />
 
     <EditorialPanel
       rapper={rapper}
@@ -74,5 +78,15 @@ export const CardContent = ({
       overlaid
       arcane={isArcane}
     />
+
+    {isActive && (
+      <div
+        className="absolute bottom-0 inset-x-0 h-[3px] z-40 pointer-events-none rounded-b-[27px]"
+        style={{
+          backgroundColor: config.accent,
+          boxShadow: `0 0 14px ${config.accent}, 0 0 4px ${config.accent}`,
+        }}
+      />
+    )}
   </div>
 );

@@ -21,7 +21,7 @@ function App() {
 
   // # 2. RAPPER SYSTEM STATES
   const [activeRapperId, setActiveRapperId] = useState<string>('yeat');
-  const [rappers, setRppers] = useState<string[]>(['yeat']);
+  const [rappers, setRappers] = useState<string[]>(['yeat']);
   const activeRapper = RAPPERS.find(r=>r.id===activeRapperId);
   const [leanPerSecond, setLeanPerSecond] = useState<number>(activeRapper.leanPerSecond);
 
@@ -96,7 +96,7 @@ function App() {
 
       {
         realTab==="collection"&&(
-            <RapperCollectionTab/>
+            <RapperCollectionTab rappers={rappers} activeRapperId={activeRapperId}/>
         )
       
       }

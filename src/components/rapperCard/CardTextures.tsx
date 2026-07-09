@@ -3,9 +3,10 @@ import type { RarityConfig } from './config';
 type CardTexturesProps = {
   config: RarityConfig;
   showBase: boolean;
+  isUnlocked: boolean;
 };
 
-export const CardTextures = ({ config, showBase }: CardTexturesProps) => (
+export const CardTextures = ({ config, showBase, isUnlocked }: CardTexturesProps) => (
   <>
     {showBase && (
       <>
@@ -14,13 +15,13 @@ export const CardTextures = ({ config, showBase }: CardTexturesProps) => (
         <div className="absolute inset-0 bg-subtle-noise pointer-events-none z-[1]" />
       </>
     )}
-    {config.epicShift && (
+    {isUnlocked && config.epicShift && (
       <div className="absolute inset-0 epic-gradient-shift pointer-events-none opacity-35 z-[1]" />
     )}
-    {config.amethystEdge && (
+    {isUnlocked && config.amethystEdge && (
       <div className="absolute inset-0 epic-amethyst-edge pointer-events-none z-[1]" />
     )}
-    {config.bronzeGleam && (
+    {isUnlocked && config.bronzeGleam && (
       <div className="absolute inset-0 bronze-gleam animate-bronze-gleam pointer-events-none z-[2]" />
     )}
   </>

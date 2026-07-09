@@ -10,14 +10,24 @@ import {
 } from './config';
 import { useCardTilt } from './useCardTilt';
 
+
+
 export type RapperCardProps = {
   rapper: rapper;
   /** Archive number — No. 001, No. 002, … */
   archiveNo?: number;
   className?: string;
+  isUnlocked: boolean;
+  isActive: boolean;
 };
 
-export const RapperCard = ({ rapper, archiveNo = 1, className = '' }: RapperCardProps) => {
+export const RapperCard = ({
+  rapper,
+  archiveNo = 1,
+  className = '',
+  isUnlocked,
+  isActive,
+}: RapperCardProps) => {
   const config = getRarityConfig(rapper.rapperRarity);
   const isArcane = rapper.rapperRarity === 'arcane';
   const cardNo = formatArchiveNo(archiveNo);
@@ -40,7 +50,7 @@ export const RapperCard = ({ rapper, archiveNo = 1, className = '' }: RapperCard
 
   return (
     <div
-      className={`relative flex-none shrink-0 ${isArcane ? 'arcane-drop-glow' : ''} ${className}`}
+      className={`relative flex-none shrink-0 ${isUnlocked && isArcane ? 'arcane-drop-glow' : ''} ${className}`}
       style={{ perspective: '1400px', width: outerW, height: outerH }}
     >
       <div
@@ -48,7 +58,7 @@ export const RapperCard = ({ rapper, archiveNo = 1, className = '' }: RapperCard
         onMouseMove={onMouseMove}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        className={`relative z-10 flex-none overflow-hidden rounded-[30px] ${config.glowClass} ${!hovered ? 'animate-card-float' : ''} ${isArcane ? 'animate-arcane-flicker' : ''}`}
+        className={`relative z-10 flex-none overflow-hidden rounded-[30px] ${isUnlocked ? config.glowClass : ''} ${isUnlocked && !hovered ? 'animate-card-float' : ''} ${isUnlocked && isArcane ? 'animate-arcane-flicker' : ''}`}
         style={{
           width: outerW,
           height: outerH,
@@ -59,7 +69,7 @@ export const RapperCard = ({ rapper, archiveNo = 1, className = '' }: RapperCard
         }}
       >
         <div
-          className={`${config.frameClass} rounded-[30px] flex-none overflow-hidden ${hovered ? 'card-volume-hover' : 'card-volume'}`}
+          className={`${isUnlocked ? config.frameClass : 'p-[3px] bg-zinc-800'} rounded-[30px] flex-none overflow-hidden ${hovered ? 'card-volume-hover' : 'card-volume'}`}
           style={{
             width: outerW,
             height: outerH,
@@ -69,7 +79,7 @@ export const RapperCard = ({ rapper, archiveNo = 1, className = '' }: RapperCard
           }}
         >
           <div
-            className={`relative rounded-[27px] overflow-hidden flex-none ${isArcane ? 'arcane-unified' : 'bg-card-base card-inner-shadow'}`}
+            className={`relative rounded-[27px] overflow-hidden flex-none ${isUnlocked && isArcane ? 'arcane-unified' : 'bg-card-base card-inner-shadow'}`}
             style={{
               width: CARD_W,
               height: CARD_H,
@@ -77,10 +87,12 @@ export const RapperCard = ({ rapper, archiveNo = 1, className = '' }: RapperCard
               transition: isArcane ? undefined : 'transform 0.2s ease-out',
             }}
           >
-            <CardTextures config={config} showBase={!isArcane} />
+            <CardTextures config={config} showBase={!isArcane} isUnlocked={isUnlocked} />
 
             <CardContent
               rapper={rapper}
+              isUnlocked={isUnlocked}
+              isActive={isActive}
               config={config}
               cardNo={cardNo}
               isArcane={isArcane}
