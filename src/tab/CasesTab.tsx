@@ -5,6 +5,7 @@ import { getRarityConfig } from '../components/rapperCard/config';
 import { type rapper, RAPPERS, type rarity } from '../lib/rappers.ts';
 
 import casePhoto from '../assets/crates/basic-crate.png.png';
+import { playRapperPreview, stopRapperPreview, playCaseBubble } from '../lib/audio.ts';
 
 const CRATE_PRICE = 500;
 
@@ -48,6 +49,7 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
   const [showModal, setShowModal] = useState(false);
 
   const resetCase = () => {
+    stopRapperPreview();
     setShowModal(false);
     setTimeout(() => {
       setCaseState('idle');
@@ -69,13 +71,17 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
     setIsDuplicate(duplicate);
     setShowModal(false);
 
+    playCaseBubble();
     handleCaseRapper(winningItem);
 
     setTimeout(() => {
       setCaseState('opened');
       setWonItem(winningItem);
 
-      setTimeout(() => setShowModal(true), 200);
+      setTimeout(() => {
+        setShowModal(true);
+        playRapperPreview(winningItem.id);
+      }, 200);
     }, 2500);
   }, [caseState, canAfford, handleCaseRapper, rappers]);
 
@@ -83,12 +89,10 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
 
   return (
     <>
-      <div className="relative overflow-hidden w-[800px] h-auto mt-[100px] rounded-2xl mb-[100px]
-        bg-gradient-to-b from-zinc-900 to-[#141414] mx-auto
-        shadow-[0_0_40px_rgba(255,255,255,0.06)] p-6">
+      <div className="relative mx-auto mb-16 mt-16 w-full max-w-[800px] overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-900 to-[#141414] p-3 shadow-[0_0_40px_rgba(255,255,255,0.06)] sm:mt-24 sm:p-6">
 
-        <div className="flex justify-center items-center flex-col p-6 min-h-[480px]">
-          <div className="relative w-64 h-80 flex items-center justify-center mb-8">
+        <div className="flex min-h-[360px] flex-col items-center justify-center p-3 sm:min-h-[480px] sm:p-6">
+          <div className="relative mb-6 flex h-56 w-48 items-center justify-center sm:mb-8 sm:h-80 sm:w-64">
             <div
               className={`absolute inset-0 rounded-full blur-3xl transition-all duration-1000 pointer-events-none ${
                 caseState === 'shaking' ? 'opacity-100 scale-150 bg-purple-500/20' : 'opacity-0 scale-100'
@@ -96,11 +100,18 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
             />
 
             <div
-              className={`relative z-10 transition-all duration-300 ${
+              className={`relative z-10 transition-all duration-300 select-none [-webkit-touch-callout:none] ${
                 caseState === 'shaking' ? 'animate-violent-shake drop-shadow-[0_0_40px_rgba(168,85,247,0.35)]' : ''
               } ${caseState === 'opened' ? 'opacity-0 scale-50' : 'opacity-100 scale-100'}`}
+              onContextMenu={e => e.preventDefault()}
             >
-              <img className="w-75 h-95 object-contain" src={casePhoto} alt="Crate" />
+              <img
+                className="pointer-events-none h-auto w-[min(220px,60vw)] select-none object-contain [-webkit-user-drag:none] sm:h-95 sm:w-75"
+                src={casePhoto}
+                alt="Crate"
+                draggable={false}
+                onDragStart={e => e.preventDefault()}
+              />
             </div>
 
             <div
@@ -115,7 +126,7 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
             onClick={handleOpenCase}
             disabled={caseState !== 'idle' || !canAfford}
             className={`
-              relative mt-2 px-10 py-3 rounded-xl text-lg uppercase tracking-widest
+              relative mt-2 w-full max-w-xs px-6 py-3 rounded-xl text-sm uppercase tracking-widest sm:max-w-none sm:px-10 sm:text-lg
               transition-all duration-300 overflow-hidden
               ${caseState !== 'idle' || !canAfford
                 ? 'bg-zinc-900/60 border border-zinc-800 text-zinc-600 cursor-not-allowed'
@@ -138,7 +149,7 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
       </div>
 
       <div
-        className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-500 ${
+        className={`fixed inset-0 z-50 flex items-end justify-center p-2 transition-all duration-500 sm:items-center sm:p-4 ${
           showModal ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
       >
@@ -146,7 +157,7 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
 
         {wonItem && wonConfig && (
           <div
-            className={`relative w-full max-w-md p-6 rounded-2xl bg-zinc-900/95 border border-zinc-800
+            className={`relative mb-safe max-h-[92vh] w-full max-w-md overflow-y-auto rounded-2xl border border-zinc-800 bg-zinc-900/95 p-4 sm:mb-0 sm:p-6
               transform transition-all duration-[800ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)]
               ${showModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-50 translate-y-24 opacity-0'}`}
             style={{ borderTopColor: wonConfig.accent, borderTopWidth: 4 }}
@@ -169,7 +180,7 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
               {wonItem.rapperRarity}
             </p>
 
-            <div className="flex flex-col items-center justify-center relative my-4">
+            <div className="relative my-2 flex flex-col items-center justify-center sm:my-4">
               <div
                 className="absolute w-48 h-48 rounded-full blur-[60px] opacity-40 animate-pulse pointer-events-none"
                 style={{ backgroundColor: wonConfig.accent }}
@@ -182,7 +193,7 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
                 <div className="w-full h-px absolute top-1/2 blur-sm -rotate-45" style={{ backgroundColor: wonConfig.accent }} />
               </div>
 
-              <div className="relative z-10 animate-float pointer-events-none">
+              <div className="relative z-10 origin-top scale-[0.58] animate-float pointer-events-none sm:scale-75 md:scale-100">
                 <RapperCard
                   rapper={wonItem}
                   archiveNo={RAPPERS.indexOf(wonItem) + 1}
@@ -193,7 +204,7 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
             </div>
 
             <div className="text-center space-y-1 relative z-10 mt-2">
-              <p className="font-display text-2xl font-extrabold uppercase tracking-[0.12em] text-white">
+              <p className="font-display text-xl font-extrabold uppercase tracking-[0.12em] text-white sm:text-2xl">
                 {wonItem.name}
               </p>
               <p className="text-sm text-zinc-500 tracking-widest pt-3 border-t border-zinc-800">

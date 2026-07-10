@@ -10,25 +10,33 @@ import type {tab} from './lib/tabs.ts'
 import type { rapper,rarity } from "./lib/rappers.ts"
 
 import {RAPPERS} from './lib/rappers.ts'
+import { loadSave, writeSave } from './lib/save.ts'
+import { playRapperPreview, stopRapperPreview, getInitialMuted, setMuted } from './lib/audio.ts'
 
+const DEFAULT_ACTIVE_ID = 'yeat';
+const defaultRapper = RAPPERS.find(r => r.id === DEFAULT_ACTIVE_ID);
+const saved = loadSave();
 
 function App() {
 
  // # 1. GAME CORE STATES
-  const [leanMoney, setLeanMoney] = useState<number>(10000);
+  const [leanMoney, setLeanMoney] = useState<number>(saved?.leanMoney ?? 0);
   const [multiplier, setMultiplier] = useState<number>(1);
   const [clickMoney, setClickMoney] = useState<number>(1);
   const [realTab, setRealTab] = useState<tab>('clicker');
 
   // # 2. RAPPER SYSTEM STATES
-  const [activeRapperId, setActiveRapperId] = useState<string>('yeat');
-  const [rappers, setRappers] = useState<string[]>(['yeat']);
+  const [activeRapperId, setActiveRapperId] = useState<string>(saved?.activeRapperId ?? DEFAULT_ACTIVE_ID);
+  const [rappers, setRappers] = useState<string[]>(saved?.rappers ?? [DEFAULT_ACTIVE_ID]);
   const activeRapper = RAPPERS.find(r=>r.id===activeRapperId);
-  const [leanPerSecond, setLeanPerSecond] = useState<number>((activeRapper.leanPerSecond)||0);
+  const [leanPerSecond, setLeanPerSecond] = useState<number>(
+    saved?.leanPerSecond ?? defaultRapper?.leanPerSecond ?? 0,
+  );
 
   // # 3. CLICK ANIMATION STATES & REFS
   const clickTargetRef  = useRef<HTMLButtonElement|null>(null);
   const [clicks, setClick] = useState<click[]>([]);
+  const [isMuted, setIsMuted] = useState(getInitialMuted);
 
   // # 4. GAME CALCULATIONS
   const moneyPerClick = (activeRapper?.clickPower||0)*multiplier;
@@ -41,6 +49,10 @@ function App() {
   }
 
   // # 5. SIDE EFFECTS
+  useEffect(() => {
+    writeSave({ leanMoney, rappers, activeRapperId, leanPerSecond });
+  }, [leanMoney, rappers, activeRapperId, leanPerSecond]);
+
   useEffect(()=>{
     if(leanPerSecond>0){ 
       const intervalId = setInterval(()=>{
@@ -58,7 +70,14 @@ function App() {
     setMultiplier(multiplier);
   }
 
+  function handleToggleMute() {
+    const next = !isMuted;
+    setIsMuted(next);
+    setMuted(next);
+  }
+
   function handleTab(nowtab:tab){ 
+    stopRapperPreview();
     setRealTab(nowtab);
   }
 
@@ -89,6 +108,7 @@ function App() {
 
     if(rapper) setLeanPerSecond(rapper.leanPerSecond);
 
+    playRapperPreview(id);
   }
 
   // # 7. VISUAL EFFECTS
@@ -112,7 +132,15 @@ function App() {
 
   return (
     <>
-    <BaseLayout realTab={realTab} handleTab={handleTab} money={leanMoney} moneyPerClick={moneyPerClick} leanPerSecond={leanPerSecond}>
+    <BaseLayout
+      realTab={realTab}
+      handleTab={handleTab}
+      money={leanMoney}
+      moneyPerClick={moneyPerClick}
+      leanPerSecond={leanPerSecond}
+      isMuted={isMuted}
+      onToggleMute={handleToggleMute}
+    >
     
    
       

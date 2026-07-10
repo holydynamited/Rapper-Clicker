@@ -9,7 +9,23 @@
   --font-display: "Syne", system-ui, sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-weight: 400;
   font-style: normal;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
