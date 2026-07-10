@@ -4,9 +4,9 @@ import nine from "../assets/rappers/ninevicious.png"
 import bleood from "../assets/rappers/bleood.jpg"
 import carti from "../assets/rappers/carti.jpg"
 
-type rarity = 'common'|'rare'|'epic'|'arcane'
+export type rarity = 'common'|'rare'|'epic'|'arcane'
 
-type rapperStatus = "locked"|"unlocked"|"active"
+export type rapperStatus = "locked"|"unlocked"|"active"
 
 
 export type rapper ={

@@ -38,7 +38,9 @@ const RapperCollectionTab = ({rappers, activeRapperId}:Props) => {
       
       </div>
 
-      <h1 className="font-sans text-white text-4xl mt-4 mb-4 ml-24">Locked Rappers:{RAPPERS.length - rappers.length} </h1>
+      {rappers.length!==RAPPERS.length&&
+    <>
+      (<h1 className="font-sans text-white text-4xl mt-4 mb-4 ml-24">Locked Rappers:{RAPPERS.length - rappers.length} </h1>
        <div className="w-fit grid grid-cols-[repeat(3,250px)] gap-4  mx-auto">
       {
         RAPPERS.map(r=>{
@@ -60,6 +62,9 @@ const RapperCollectionTab = ({rappers, activeRapperId}:Props) => {
       }
       
       </div>
+      )
+      </>
+      }
     </div>
   )
 }

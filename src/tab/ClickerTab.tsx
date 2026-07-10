@@ -1,4 +1,4 @@
-import lean from '../assets/lean.png';
+import lean from '../assets/doublecup.png';
 import type {click} from '../lib/clicks.ts'
 
 type Props = {

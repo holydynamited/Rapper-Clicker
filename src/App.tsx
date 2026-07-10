@@ -7,6 +7,7 @@ import RapperCollectionTab from "./tab/RapperCollectionTab.tsx"
 
 import type {click} from './lib/clicks.ts'
 import type {tab} from './lib/tabs.ts'
+import type { rapper,rarity } from "./lib/rappers.ts"
 
 import {RAPPERS} from './lib/rappers.ts'
 
@@ -14,7 +15,7 @@ import {RAPPERS} from './lib/rappers.ts'
 function App() {
 
  // # 1. GAME CORE STATES
-  const [leanMoney, setLeanMoney] = useState<number>(0);
+  const [leanMoney, setLeanMoney] = useState<number>(10000);
   const [multiplier, setMultiplier] = useState<number>(1);
   const [clickMoney, setClickMoney] = useState<number>(1);
   const [realTab, setRealTab] = useState<tab>('clicker');
@@ -31,6 +32,13 @@ function App() {
 
   // # 4. GAME CALCULATIONS
   const moneyPerClick = (activeRapper?.clickPower||0)*multiplier;
+
+  const DUPLICATE_REFUND: Record<rarity, number> = {
+  common: 100,
+  rare: 200,
+  epic: 350,
+  arcane: 450,
+  }
 
   // # 5. SIDE EFFECTS
   useEffect(()=>{
@@ -52,6 +60,23 @@ function App() {
 
   function handleTab(nowtab:tab){ 
     setRealTab(nowtab);
+  }
+
+  function handleCaseRapper(r:rapper){
+    if(leanMoney>=500){
+      setLeanMoney(m => m - 500);
+      const haveRapper = rappers.includes(r.id);
+
+    if(haveRapper){
+       setLeanMoney(m => m + DUPLICATE_REFUND[r.rapperRarity]);
+    return;
+
+    }
+
+    setRappers(prev=>[...prev,r.id])
+    }
+    
+
   }
 
   // # 7. VISUAL EFFECTS
@@ -89,14 +114,14 @@ function App() {
 
       {
           realTab==="cases"&&(
-            <CasesTab/>
+            <CasesTab  handleCaseRapper={handleCaseRapper} rappers={rappers} leanMoney={leanMoney}/>
           )
 
       }
 
       {
         realTab==="collection"&&(
-            <RapperCollectionTab rappers={rappers} activeRapperId={activeRapperId}/>
+            <RapperCollectionTab rappers={rappers} activeRapperId={activeRapperId} />
         )
       
       }
