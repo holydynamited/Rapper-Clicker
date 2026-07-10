@@ -8,7 +8,10 @@
   <img src="https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white" />
   <img src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?logo=telegram&logoColor=white" />
   <img src="https://img.shields.io/badge/License-MIT-success" />
+   <img src="https://img.shields.io/github/v/release/holydynamited/Rapper-Clicker?label=release" />
+  
 </p>
+
 
 **Rapper Clicker** is a browser-based idle/clicker game inspired by modern underground rap aesthetics.
 
