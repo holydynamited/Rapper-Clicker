@@ -24,7 +24,7 @@ function App() {
   const [activeRapperId, setActiveRapperId] = useState<string>('yeat');
   const [rappers, setRappers] = useState<string[]>(['yeat']);
   const activeRapper = RAPPERS.find(r=>r.id===activeRapperId);
-  const [leanPerSecond, setLeanPerSecond] = useState<number>(activeRapper.leanPerSecond);
+  const [leanPerSecond, setLeanPerSecond] = useState<number>((activeRapper.leanPerSecond)||0);
 
   // # 3. CLICK ANIMATION STATES & REFS
   const clickTargetRef  = useRef<HTMLButtonElement|null>(null);
@@ -79,6 +79,18 @@ function App() {
 
   }
 
+  function handleSelectActiveRapper(id:string){
+
+    if(!rappers.includes(id)) return;
+
+    setActiveRapperId(id);
+
+    const rapper = RAPPERS.find(r=>r.id===id);
+
+    if(rapper) setLeanPerSecond(rapper.leanPerSecond);
+
+  }
+
   // # 7. VISUAL EFFECTS
   function handleMoneyAnimation(e:React.MouseEvent){
     if(clickTargetRef.current){
@@ -100,7 +112,7 @@ function App() {
 
   return (
     <>
-    <BaseLayout realTab={realTab} handleTab={handleTab} money={leanMoney} moneyPerClick={moneyPerClick}>
+    <BaseLayout realTab={realTab} handleTab={handleTab} money={leanMoney} moneyPerClick={moneyPerClick} leanPerSecond={leanPerSecond}>
     
    
       
@@ -121,7 +133,7 @@ function App() {
 
       {
         realTab==="collection"&&(
-            <RapperCollectionTab rappers={rappers} activeRapperId={activeRapperId} />
+            <RapperCollectionTab rappers={rappers} activeRapperId={activeRapperId} selectActiveRapper={handleSelectActiveRapper} />
         )
       
       }

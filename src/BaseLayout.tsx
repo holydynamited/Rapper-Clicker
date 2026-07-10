@@ -11,14 +11,16 @@ type Props = {
   money:number;
   moneyPerClick: number;
   handleTab: (tab:tab)=> void;
-  realTab :tab
+  realTab :tab;
+  leanPerSecond: number
 }
 
-const BaseLayout = ({ children, money, moneyPerClick, handleTab , realTab}: Props) => {
+const BaseLayout = ({ children, money, moneyPerClick, handleTab , realTab, leanPerSecond}: Props) => {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[#0b0c10]">
     
         <Header money={money} moneyPerClick={moneyPerClick} handleTab={handleTab}
+        leanPerSecond={leanPerSecond}
         realTab={realTab}
         />
       

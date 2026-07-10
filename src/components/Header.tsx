@@ -6,14 +6,15 @@ type Props = {
     money :number,
     moneyPerClick:number,
     handleTab:(tab:tab)=>void,
-    realTab:tab
+    realTab:tab,
+    leanPerSecond:number
 
 }
     
 
 
 
-const Header = ({money,moneyPerClick, handleTab, realTab}:Props) => {
+const Header = ({money,moneyPerClick, handleTab, realTab, leanPerSecond}:Props) => {
   return (
     <div className='sticky flex top-0 left-0 h-20 w-screen bg-[#191919] z-1000 items-center justify-around  uppercase
     shadow-fuchsia-950
@@ -65,6 +66,10 @@ const Header = ({money,moneyPerClick, handleTab, realTab}:Props) => {
           <div className="text-right  pl-4">
             <span className="block  text-zinc-500 uppercase tracking-widest">Cash per click</span>
             <span className="text-purple-400 font-black ">+{moneyPerClick}</span>
+          </div>
+          <div className="text-right  pl-4">
+            <span className="block  text-zinc-500 uppercase tracking-widest">Lean per second:</span>
+            <span className="text-purple-400 font-black ">+{leanPerSecond}</span>
           </div>
 
           </div>

@@ -4,10 +4,12 @@ import RapperCard from "../components/RapperCard"
   type Props = {
       rappers:string[],
       activeRapperId:string,
+      selectActiveRapper:(id:string)=>void,
+     
 
   }
 
-const RapperCollectionTab = ({rappers, activeRapperId}:Props) => {
+const RapperCollectionTab = ({rappers, activeRapperId, selectActiveRapper}:Props) => {
   return (
     <div className="relative overflow-hidden  w-[1000px]  h-auto mt-[100px] rounded-2xl mb-[100px]
         bg-gradient-to-b from-zinc-900 to-[#141414]     mx-auto items-start 
@@ -29,6 +31,7 @@ const RapperCollectionTab = ({rappers, activeRapperId}:Props) => {
             archiveNo={RAPPERS.indexOf(r) + 1}
             isUnlocked={isUnlocked}
             isActive={isActive}
+            onClick={ isUnlocked ? () => selectActiveRapper(r.id) : undefined}
           />
         );
         }

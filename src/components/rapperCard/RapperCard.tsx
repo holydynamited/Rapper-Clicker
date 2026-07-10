@@ -19,6 +19,7 @@ export type RapperCardProps = {
   className?: string;
   isUnlocked: boolean;
   isActive: boolean;
+  onClick?: () => void;
 };
 
 export const RapperCard = ({
@@ -27,6 +28,7 @@ export const RapperCard = ({
   className = '',
   isUnlocked,
   isActive,
+  onClick,
 }: RapperCardProps) => {
   const config = getRarityConfig(rapper.rapperRarity);
   const isArcane = rapper.rapperRarity === 'arcane';
@@ -50,7 +52,8 @@ export const RapperCard = ({
 
   return (
     <div
-      className={`relative flex-none shrink-0 ${isUnlocked && isArcane ? 'arcane-drop-glow' : ''} ${className}`}
+      onClick={onClick}
+      className={`relative flex-none shrink-0 ${isUnlocked && isArcane ? 'arcane-drop-glow' : ''} ${className} ${onClick ? 'cursor-pointer' : ''}`}
       style={{ perspective: '1400px', width: outerW, height: outerH }}
     >
       <div
