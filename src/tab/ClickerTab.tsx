@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react';
 import lean from '../assets/doublecup.png';
 import type {click} from '../lib/clicks.ts'
 import { playCupBubble } from '../lib/audio.ts'
+import { hapticImpact } from '../lib/telegram.ts'
 
 type Props = {
   handleLeanMoney: () => void;
@@ -31,6 +32,7 @@ const ClickerTab = ({ handleLeanMoney, clickTargetRef, handleMoneyAnimation, cli
     setRipples(prev => [...prev, ripple]);
 
     playCupBubble();
+    hapticImpact('light');
     handleLeanMoney();
     handleMoneyAnimation(e);
 

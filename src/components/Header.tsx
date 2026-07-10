@@ -2,6 +2,7 @@
 import { Volume2, VolumeX } from 'lucide-react';
 
 import type {tab} from'../lib/tabs'
+import { getTelegramWelcome } from '../lib/telegram.ts'
 
 type Props = {
     money :number,
@@ -14,8 +15,15 @@ type Props = {
 }
 
 const Header = ({money,moneyPerClick, handleTab, realTab, leanPerSecond, isMuted, onToggleMute}:Props) => {
+  const telegramWelcome = getTelegramWelcome();
+
   return (
     <div className="sticky top-0 left-0 z-1000 w-full bg-[#191919] uppercase shadow-lg shadow-fuchsia-950 pt-safe">
+      {telegramWelcome && (
+        <p className="px-3 pt-2 text-center text-[10px] normal-case tracking-widest text-zinc-500 sm:px-6">
+          Welcome, <span className="text-purple-400/90">{telegramWelcome}</span>
+        </p>
+      )}
       <div className="flex flex-col gap-3 px-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-6 sm:py-4">
         <div className="flex w-full items-center justify-center gap-3 sm:w-auto sm:justify-start">
           <nav className="flex">

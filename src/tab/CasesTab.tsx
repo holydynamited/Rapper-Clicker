@@ -2,10 +2,12 @@ import { useState, useCallback } from 'react';
 
 import RapperCard from '../components/RapperCard';
 import { getRarityConfig } from '../components/rapperCard/config';
-import { type rapper, RAPPERS, type rarity } from '../lib/rappers.ts';
+import { type rapper, RAPPERS } from '../lib/rappers.ts';
+import { rollCrate } from '../lib/crateDrop.ts';
 
 import casePhoto from '../assets/crates/basic-crate.png.png';
 import { playRapperPreview, stopRapperPreview, playCaseBubble } from '../lib/audio.ts';
+import { hapticImpact } from '../lib/telegram.ts';
 
 const CRATE_PRICE = 500;
 
@@ -17,30 +19,6 @@ type Props = {
   leanMoney:number;
  
 };
-
-const RARITY_WEIGHTS: Record<rarity, number> = {
-  common: 60,
-  rare: 30,
-  epic: 8,
-  arcane: 2,
-};
-
-export function rollCrate(): rapper {
-  const roll = Math.random() * 100;
-  let cumulative = 0;
-
-  let selectedRarity: rarity = 'common';
-  for (const [tier, weight] of Object.entries(RARITY_WEIGHTS) as [rarity, number][]) {
-    cumulative += weight;
-    if (roll <= cumulative) {
-      selectedRarity = tier;
-      break;
-    }
-  }
-
-  const pool = RAPPERS.filter(r => r.rapperRarity === selectedRarity);
-  return pool[Math.floor(Math.random() * pool.length)];
-}
 
 const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
   const [caseState, setCaseState] = useState<CaseState>('idle');
@@ -72,6 +50,7 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
     setShowModal(false);
 
     playCaseBubble();
+    hapticImpact('medium');
     handleCaseRapper(winningItem);
 
     setTimeout(() => {
@@ -81,6 +60,7 @@ const CasesTab = ({ handleCaseRapper, rappers, leanMoney }: Props) => {
       setTimeout(() => {
         setShowModal(true);
         playRapperPreview(winningItem.id);
+        hapticImpact(winningItem.rapperRarity === 'arcane' ? 'heavy' : 'medium');
       }, 200);
     }, 2500);
   }, [caseState, canAfford, handleCaseRapper, rappers]);
