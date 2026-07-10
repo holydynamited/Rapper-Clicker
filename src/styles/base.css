@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "VT323", monospace;
+  --font-elegant: "Pinyon Script", cursive;
+  --font-display: "Syne", system-ui, sans-serif;
+}
+
+body {
+  font-weight: 400;
+  font-style: normal;
+}

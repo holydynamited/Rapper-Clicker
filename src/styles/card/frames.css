@@ -1,0 +1,62 @@
+@layer utilities {
+  .frame-graphite {
+    background: linear-gradient(148deg, #3a3a3a 0%, #1a1a1a 40%, #2a2a2a 70%, #1a1a1a 100%);
+    padding: 3px;
+    box-shadow:
+      0 28px 56px -14px rgba(0, 0, 0, 0.9),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .frame-bronze {
+    background: linear-gradient(152deg, #88755a 0%, #5a4a38 35%, #a38a68 55%, #4a3d30 80%, #88755a 100%);
+    padding: 3px;
+    box-shadow:
+      0 28px 56px -14px rgba(0, 0, 0, 0.9),
+      0 0 18px rgba(136, 117, 90, 0.1),
+      inset 0 1px 0 rgba(200, 175, 140, 0.12);
+  }
+
+  .frame-obsidian {
+    background: linear-gradient(158deg, #0a0a0a 0%, #121212 35%, #1a1a1a 60%, #0a0a0a 100%);
+    padding: 3px;
+    box-shadow:
+      0 28px 56px -14px rgba(0, 0, 0, 0.92),
+      0 0 28px rgba(93, 59, 115, 0.14),
+      inset 0 0 0 1px rgba(93, 59, 115, 0.22),
+      inset 0 1px 0 rgba(140, 106, 168, 0.08);
+  }
+
+  .frame-chrome {
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 30px;
+    background: linear-gradient(
+      var(--chrome-angle, 140deg),
+      #c8d0f0 0%,
+      #f0e8ff 14%,
+      #a8d8f8 28%,
+      #d8b8f0 42%,
+      #e8f0ff 56%,
+      #b8c0e8 70%,
+      #f0d8f8 84%,
+      #c0e0f8 100%
+    );
+    background-size: 320% 320%;
+    box-shadow:
+      0 32px 64px -16px rgba(0, 0, 0, 0.92),
+      0 0 50px rgba(180, 160, 240, 0.22),
+      0 0 80px rgba(140, 200, 255, 0.12);
+    animation: chromeDrift 9s ease-in-out infinite, arcaneHue 7s ease-in-out infinite;
+  }
+
+  .glow-rare {
+    box-shadow: 0 0 28px rgba(136, 117, 90, 0.07);
+  }
+
+  .glow-epic {
+    box-shadow: 0 0 36px rgba(93, 59, 115, 0.16);
+  }
+}

@@ -1,0 +1,46 @@
+@keyframes shine {
+  0% { left: -100%; }
+  20% { left: 200%; }
+  100% { left: 200%; }
+}
+
+.animate-shine {
+  animation: shine 4s infinite;
+}
+
+@keyframes violent-shake {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  10% { transform: translate(-4px, -4px) rotate(-2deg) scale(1.02); }
+  20% { transform: translate(4px, -2px) rotate(2deg) scale(1.04); }
+  30% { transform: translate(-4px, 4px) rotate(-2deg) scale(1.06); }
+  40% { transform: translate(4px, 4px) rotate(2deg) scale(1.08); }
+  50% { transform: translate(-2px, -4px) rotate(-1deg) scale(1.1); }
+  60% { transform: translate(4px, -2px) rotate(2deg) scale(1.08); }
+  70% { transform: translate(-4px, 4px) rotate(-2deg) scale(1.06); }
+  80% { transform: translate(2px, -4px) rotate(1deg) scale(1.04); }
+  90% { transform: translate(-2px, 2px) rotate(-1deg) scale(1.02); }
+  100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+}
+
+.animate-violent-shake {
+  animation: violent-shake 0.4s cubic-bezier(.36,.07,.19,.97) infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
